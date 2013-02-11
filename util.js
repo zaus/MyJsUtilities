@@ -35,7 +35,7 @@
 		return Class;
 	};//--	fn	Define
 
-	// helper macro to assist in inheritance; via http://phrogz.net/js/classes/OOPinJS2.html
+	// helper macro to assist in inheritance; via http://phrogz.net/js/classes/OOPinJS2.html + someothersource
 	Inherits = function (parentClass, constructorDefinition) {
 		/// <summary>
 		///		OOJS: declares that a new class inherits methods, etc from a parent class.
@@ -44,16 +44,22 @@
 		/// <param name="parentClass" type="Class">The parent class to inherit from.  Available in child class as <code>._parent</code></param>
 		/// <param name="constructorDefinition" type="function">The regular constructor function.  Has access to <code>._parent</code>.</param>
 
-		var childClass = constructorDefinition || function () { };
+		var childClass = function () {
+			this.__initialize.apply(this. arguments);
+		};
+		
 		childClass.prototype = new parentClass; // where the inheritance occurs
 		childClass.prototype.constructor = childClass; // Otherwise instances of child would have a constructor of parent
 		childClass.prototype._parent = parentClass.prototype; // expose super
+		
+		// attach optional "constructor" override
+		childClass.prototype.__initialize = (constructorDefinition || childClass.prototype.__initialize || function() { });
 		return childClass;
 	};//--	fn	Inherits
 
 
 	Templater = Define(
-		function (idOrTemplate) {
+		function (idOrTemplate, openToken, closeToken) {
 			// assume HTML provided
 			if (idOrTemplate[0] == '<') {
 				this.template = idOrTemplate;
@@ -61,11 +67,17 @@
 			else {
 				this.template = document.getElementById(idOrTemplate).innerHTML;
 			}
+			if( openToken ) this.openToken = openToken;
+			if( closeToken ) this.closeToken = closeToken;
 		}//--	Templater
 		, {
 			get_token_regex: function (token) {
-				return new RegExp('{{' + token + '}}', 'g');
+				return new RegExp(this.openToken + token + this.closeToken, 'g');
 			}//--	Templater.render
+			,
+			openToken: '{{'
+			,
+			closeToken: '}}'
 			,
 			render: function (tokens) {
 				var ME = this;
