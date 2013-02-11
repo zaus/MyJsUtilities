@@ -17,17 +17,14 @@
 	};//--	fn	_log
 
 	// helper macro to assist in class definition
-	Define = function (constructorFn, methods) {
+	Define = function (ME, methods) {
 		/// <summary>
-		///		OOJS: Define prototype methods for given class.
+		///		OOJS: Define prototype methods for given class.  Note, to take full advantage of Inherits declare an `__initialize` function.
 		///		Usage: var someClass = Define(function(){ ... }, { methodA: function(){...}, methodB: ... });
+		///		Usage: var anotherClass = function() { ... };  Define(anotherClass, { methods... });
 		/// </summary>
-		/// <param name="constructorFn" type="function">The class to define methods for</param>
+		/// <param name="ME" type="function">The class to define methods for</param>
 		/// <param name="methods" type="JSON">mapping of method names and functions</param>
-
-		var ME = function () {
-			this.__initialize.apply(this, arguments);
-		};
 
 		for (var method in methods) {
 			// only explicitly defined methods
@@ -35,8 +32,6 @@
 				ME.prototype[method] = methods[method];
 			}
 		}
-		
-		if( !ME.prototype.__initialize ) ME.prototype.__initialize = constructorFn;
 
 		return ME;
 	};//--	fn	Define
@@ -44,7 +39,7 @@
 	// helper macro to assist in inheritance; via http://phrogz.net/js/classes/OOPinJS2.html + someothersource
 	Inherits = function (parentClass, constructorDefinition) {
 		/// <summary>
-		///		OOJS: declares that a new class inherits methods, etc from a parent class.
+		///		OOJS: declares that a new class inherits methods, etc from a parent class.  Will declare using the prototype `__initialize` method or provided constructorDefinition.
 		///		Usage: var SUV = Inherits(Car, function() { /* the constructor */ });  Define(SUV, /* additional methods */);
 		/// </summary>
 		/// <param name="parentClass" type="Class">The parent class to inherit from.  Available in child class as <code>._parent</code></param>
