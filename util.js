@@ -17,22 +17,28 @@
 	};//--	fn	_log
 
 	// helper macro to assist in class definition
-	Define = function (Class, methods) {
+	Define = function (constructorFn, methods) {
 		/// <summary>
 		///		OOJS: Define prototype methods for given class.
-		///		Usage: var someClass = function(){ ... }; Define(someClass, { methodA: function(){...}, methodB: ... });
+		///		Usage: var someClass = Define(function(){ ... }, { methodA: function(){...}, methodB: ... });
 		/// </summary>
-		/// <param name="Class" type="ObjectFn">The class to define methods for</param>
+		/// <param name="constructorFn" type="function">The class to define methods for</param>
 		/// <param name="methods" type="JSON">mapping of method names and functions</param>
+
+		var ME = function () {
+			this.__initialize.apply(this, arguments);
+		};
 
 		for (var method in methods) {
 			// only explicitly defined methods
 			if (methods.hasOwnProperty(method)) {
-				Class.prototype[method] = methods[method];
+				ME.prototype[method] = methods[method];
 			}
 		}
+		
+		if( !ME.prototype.__initialize ) ME.prototype.__initialize = constructorFn;
 
-		return Class;
+		return ME;
 	};//--	fn	Define
 
 	// helper macro to assist in inheritance; via http://phrogz.net/js/classes/OOPinJS2.html + someothersource
@@ -45,7 +51,7 @@
 		/// <param name="constructorDefinition" type="function">The regular constructor function.  Has access to <code>._parent</code>.</param>
 
 		var childClass = function () {
-			this.__initialize.apply(this. arguments);
+			this.__initialize.apply(this, arguments);
 		};
 		
 		childClass.prototype = new parentClass; // where the inheritance occurs
