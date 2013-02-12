@@ -1,0 +1,18 @@
+a { text-decoration: none; }
+
+.clearfix:after { content:""; display:block; clear:both; }
+
+.template-list > .comment {
+    border:0.1rem solid blue;
+    padding: 0.5rem;
+    
+    .header { font-size: 1.2rem; }
+
+	@extend .clearfix;
+}
+
+.avatar {
+	float: left;
+	padding:0.5rem;
+	img { max-height:3rem; max-width:6rem; }
+}

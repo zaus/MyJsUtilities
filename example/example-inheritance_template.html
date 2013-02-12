@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Inheritance &amp; Template Example | MyJsUtilities</title>
+	<link rel="stylesheet" href="example-inheritance_template.css" type="text/css" />
+</head>
+<body>
+
+	<script id="tmpl-profile" type="text/template">
+		<article id="profile-{{id}}" class="profile">
+			<h3 class="header">{{Last}}, {{First}}</h3>
+			<img src="{{Avatar}}" alt="profile thumbnail" />
+			<div class="bio">{{Bio}}</div>
+		</article>
+	</script>
+	<script id="tmpl-avatar" type="text/template">
+		<a href="#profile-{{id}}">
+			<article id="avatar-{{id}}" class="avatar">
+				<img src="{{Avatar}}" alt="profile thumbnail" />
+				<h4 class="header">{{First}} {{Last}}</h4>
+			</article>
+		</a>
+	</script>
+	<script id="tmpl-comment" type="text/template">
+		<article class="comment content">
+			<h3 class="header">{{Title}}</h3>
+			<div class="inner">
+				{{Content}}
+			</div>
+		</article>
+	</script><script id="tmpl-comment-in-list" type="text/template">
+		<li id="comment-{{id}}" class="comment">
+			{{avatar}}
+			{{comment}}
+		</li>
+	</script>
+
+	<h1>Comments Example</h1>
+	<div id="content">
+		<section id="comments">
+			<h2>Comments</h2>
+			<ul class="comments template-list"></ul>
+		</section>
+    
+		<section id="users">
+			<h2>Users</h2>
+			<ul class="users template-list"></ul>
+		</section>
+	</div>
+
+	<h2>Console Output</h2>
+	<pre id="console-output"></pre>
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="../util.js"></script>
+	<script src="example-inheritance_template.js"></script>
+</body>
+</html>
