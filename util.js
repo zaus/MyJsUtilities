@@ -1,12 +1,12 @@
 !(function(undefined){
-	DEBUGMODE = true;
+	// DEBUGMODE = false; // explicitly set to disable
 
 	_log = function (params) {
 		/// <summary>
 		/// Paulirish-like console.log wrapper
 		/// </summary>
 		/// <param name="params" type="[...]">list your logging parameters</param>
-		if (typeof undefined === typeof DEBUGMODE || !DEBUGMODE) return;
+		if (typeof undefined !== typeof DEBUGMODE && !DEBUGMODE) return;
 
 		if (console && console.log) {
 			if (console.log.apply)
@@ -36,7 +36,7 @@
 		return ME;
 	};//--	fn	Define
 
-	// helper macro to assist in inheritance; via http://phrogz.net/js/classes/OOPinJS2.html + someothersource
+	// helper macro to assist in inheritance
 	Inherits = function (parentClass, constructorDefinition) {
 		/// <summary>
 		///		OOJS: declares that a new class inherits methods, etc from a parent class.  Will declare using the prototype `__initialize` method or provided constructorDefinition.
@@ -44,6 +44,7 @@
 		/// </summary>
 		/// <param name="parentClass" type="Class">The parent class to inherit from.  Available in child class as <code>._parent</code></param>
 		/// <param name="constructorDefinition" type="function">The regular constructor function.  Has access to <code>._parent</code>.</param>
+		/// <remarks>via http://phrogz.net/js/classes/OOPinJS2.html and http://www.htmlgoodies.com/html5/tutorials/create-an-object-oriented-javascript-class-constructor.html </remarks>
 
 		var childClass = function () {
 			this.__initialize.apply(this, arguments);

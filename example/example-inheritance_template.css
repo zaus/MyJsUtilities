@@ -1,0 +1,21 @@
+a {
+  text-decoration: none; }
+
+.clearfix:after, .template-list > .comment:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.template-list > .comment {
+  border: 0.1rem solid blue;
+  padding: 0.5rem; }
+  .template-list > .comment .header {
+    font-size: 1.2rem; }
+
+.avatar {
+  float: left;
+  padding: 0.5rem; }
+  .avatar img {
+    max-height: 3rem;
+    max-width: 6rem; }
+
