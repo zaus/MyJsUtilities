@@ -1,5 +1,5 @@
 !(function(undefined){
-<<<<<<< HEAD
+
 	// declare this somewhere:  DEBUGMODE = true;
 
 	_log = (function (undefined) {
@@ -59,24 +59,6 @@
 		};//--	fn	returned
 	
 	})();//--- _log
-=======
-	// DEBUGMODE = false; // explicitly set to disable
-
-	_log = function (params) {
-		/// <summary>
-		/// Paulirish-like console.log wrapper
-		/// </summary>
-		/// <param name="params" type="[...]">list your logging parameters</param>
-		if (typeof undefined !== typeof DEBUGMODE && !DEBUGMODE) return;
-
-		if (console && console.log) {
-			if (console.log.apply)
-				console.log.apply(console, Array.prototype.slice.call(arguments, 0));
-			else
-				console.log(Array.prototype.slice.call(arguments, 0));
-		}
-	};//--	fn	_log
->>>>>>> restoring_github
 
 	// helper macro to assist in class definition
 	Define = function (ME, methods) {
