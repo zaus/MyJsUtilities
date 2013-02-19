@@ -37,6 +37,8 @@
 			/// </summary>
 			/// <param name="stack" type="String">the stack string</param>
 	
+			if (!stack) return '?'; // IE?  whatever - http://stackoverflow.com/questions/1502765/javascript-stack-trace-in-ie-or-maybe-just-a-simple-javascript-error
+
 			// correct line number according to how Log().write implemented
 			var line = stack.split('\n')[3];
 			// fix for various display text
