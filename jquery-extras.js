@@ -39,13 +39,13 @@
 	/** filterable trigger */
 	$.fn.triggerAny = function(filter, data){
 		// note the use of .$each vs. .each
-		return this.$each(function(){
-			var events = $.grep( this.listEvents(), function(en) {
+		return this.$each(function(i,$o){
+			var events = $.grep( $o.listEvents(), function(en) {
 					// TODO: regex to "translate" wildcards
 					return -1 != (en).indexOf(filter);
 				})
 			;
-			$.each(events, function(i,en){ this.trigger( en, data ); });
+			$.each(events, function(i,en){ $o.trigger( en, data ); });
 		});
 	};//--	$.fn.triggerAny
 	
