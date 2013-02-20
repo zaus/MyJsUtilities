@@ -32,7 +32,6 @@
 			result.push.apply(result, (isSorted ? evns.sort() : evns) ); // $.merge?
 		});//-- this.each
 		
-		console.log('>> listing events', result);
 		return result;
 	};//--	$.fn.listEvents
 
