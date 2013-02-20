@@ -5,7 +5,7 @@
 		return e.type + ( e.namespace ? '.' + e.namespace : '' );
 	};
   
-	/** shortcut to getting the list of bound events for an element, since it may change */
+	/** Get the list of bound events for an element in "human-readable" format.  Note this is intended for a single element, not many, and may have unintended side-effects */
 	$.fn.listEvents = function(isSorted) {
 		var result = [], /*jQuery event listing*/evts, /*list event names*/evns;
 		this.each(function() {
@@ -35,18 +35,28 @@
 		return result;
 	};//--	$.fn.listEvents
 
+	/** Filter the list of bound events for an element, expecting "human-readable" format.  Note this is intended for a single element, not many, and may have unintended side-effects */
+	$.fn.filterEvents = function(filter) {
+		return $.grep( this.listEvents(), function(en) {
+			// TODO: regex to "translate" wildcards
+			return -1 != (en).indexOf(filter);
+		});
+	};//--	$.fn.filterEvents
+	
 	/** filterable trigger */
 	$.fn.triggerAny = function(filter, data){
 		// note the use of .$each vs. .each
 		return this.$each(function(i,$o){
-			var events = $.grep( $o.listEvents(), function(en) {
-					// TODO: regex to "translate" wildcards
-					return -1 != (en).indexOf(filter);
-				})
-			;
-			$.each(events, function(i,en){ $o.trigger( en, data ); });
+			$.each($o.filterEvents(filter), function(i,en){ $o.trigger( en, data ); });
 		});
 	};//--	$.fn.triggerAny
+	
+	/** filterable listener */
+	$.fn.onAny = function(filter, callback) {
+		return this.$each(function(i,$o){
+			$.each($o.filterEvents(filter), function(i,en){ $o.on( en, callback ); });
+		});
+	};//--	$.fn.onAny
 	
 	/** like jQuery.each, but `this` in scope is the jQuery element instead */
 	$.fn.$each = function (callback) {

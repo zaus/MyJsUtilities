@@ -4,7 +4,7 @@ MyJsUtilities
 Some useful javascript functions and stuff, cobbled together from various sources.
 
 - [Testing/Demo Fiddle](http://jsfiddle.net/drzaus/cTy3Q/) _(also included in `/examples`)_
-- [Another testing demo](http://codepen.io/zaus/pen/Bvaow) or [here](http://jsfiddle.net/drzaus/8bvar/8/)
+- [Another testing demo](http://codepen.io/zaus/pen/Bvaow) or [here](http://jsfiddle.net/drzaus/8bvar/10/)
 
 Contents
 --------
