@@ -1,0 +1,24 @@
+<html>
+	<head><title>MiniUtil tests</title></head>
+<body>
+
+	<script id="tmpl-a" type="text/template">{{a}} {{b}} {{c}} {{d}} {{e}}</script>
+	<script id="tmpl-b" type="text/template">the {{rain}} in {{spain}} stays mainly on the {{plain}}.</script>
+	<pre id="out"></pre>
+
+	<script src="../miniutil.js"></script>
+	<script src="testing.js"></script>
+
+	<script>
+		var tmplA = new T('tmpl-a')
+			, tmplB = new T('tmpl-b')
+		;
+
+		Assert.AreEqual(true, true);
+		Assert.AreNotEqual(true, false);
+		Assert.IsFalse(false);
+		Assert.IsFalse(true);
+	</script>
+
+</body>
+</html>
