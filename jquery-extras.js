@@ -43,7 +43,7 @@
 		});
 	};//--	$.fn.filterEvents
 	
-	/** filterable trigger */
+	/** filterable trigger - fire one of existing bound events */
 	$.fn.triggerAny = function(filter, data){
 		// note the use of .$each vs. .each
 		return this.$each(function(i,$o){
