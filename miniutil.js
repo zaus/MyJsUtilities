@@ -3,7 +3,7 @@
 	$.each = function (o, fn) { for (var p in o) { if (o.hasOwnProperty(p)) if (false === fn(o[p], p)) return; } }
 	$.extend = function (a, b, c) { a = a || {}; $.each(b, function (v, k) { a[k] = v }); return c ? $.extend(a, c) : a; }
 
-	T = function (id) { this.t = $(id).innerHTML; }
+	T = function (id) { var $o = $(id); this.t = $o ? $o.innerHTML : ''; }
 	T.prototype.render = function (data) {
 		var t = this.t
 		$.each(data, function (v, k) {

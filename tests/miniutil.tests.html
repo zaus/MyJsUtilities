@@ -12,12 +12,95 @@
 	<script>
 		var tmplA = new T('tmpl-a')
 			, tmplB = new T('tmpl-b')
+			, tmplC = new T() // set template string manually
 		;
 
-		Assert.AreEqual(true, true);
-		Assert.AreNotEqual(true, false);
-		Assert.IsFalse(false);
-		Assert.IsFalse(true);
+		Assert.Tests([
+			// random tests just to see if the "test framework" works
+			function AreEqual() {
+				Assert.AreEqual(true, true);
+			}
+			,
+			function AreNotEqual() {
+				Assert.AreNotEqual(true, false);
+			}
+			,
+			function IsTrueFalse() {
+				Assert.IsTrue(false, "wannabe");
+				Assert.IsFalse(true, "i expected you to be");
+			}
+			,
+			// actual tests
+			function Template_NoData() {
+				Assert.AreEqual('{{a}} {{b}} {{c}} {{d}} {{e}}', tmplA.render());
+				Assert.AreEqual('the {{rain}} in {{spain}} stays mainly on the {{plain}}.', tmplB.render());
+				Assert.AreEqual('', tmplC.render());
+			}
+			,
+			function Template_Rendered() {
+				Assert.AreEqual('1 2 3 4 5', tmplA.render({a:1, b:2, c:3, d:4, e:5}));
+				Assert.AreEqual('the 1 in 2 stays mainly on the three.', tmplB.render({rain:1, spain:2, plain:'three'}));
+			}
+			,
+			function Template_Manual() {
+				tmplC.t = 'this is a {{manually}} set {{template}}, so {{cheer up}}!';
+				Assert.AreEqual(tmplC.t, tmplC.render());
+				var data = { manually: 'one', template: 2, "cheer up": 3 };
+				Assert.AreEqual('this is a one set 2, so 3!', tmplC.render(data));
+			}
+			,
+			function $_Find() {
+				var id = 'out', $out = $(id);
+				Assert.AreEqual(document.getElementById(id), $out);
+			}
+			,
+			function $_Each_Array() {
+				var t = [1, 2, 3, 4, 5], result1, result2, dir;
+				// increment
+				result1 = 0; dir = true;
+				for (var i = 0; i < t.length; i++) {
+					result1 += (dir ? 1 : -1) * t[i];
+				}
+				result2 = 0; dir = true;
+				$.each(t, function (n) { result2 += (dir ? 1 : -1) * n; });
+
+				Assert.AreEqual(result1, result2);
+			}
+			,
+			function $_Each_Object() {
+				var t = { a: 1, b: 2, c: 3, d: 4, e: 5 }, result1, result2, dir;
+				// increment
+				result1 = 0; dir = true;
+				for (var i in t) {
+					if( t.hasOwnProperty(i) )
+						result1 += (dir ? 1 : -1) * t[i];
+				}
+				result2 = 0; dir = true;
+				$.each(t, function (n) { result2 += (dir ? 1 : -1) * n; });
+
+				Assert.AreEqual(result1, result2);
+			}
+			,
+			function $_Extend_Empty() {
+				var t = { a: 1, b: 2, c: 3, d: 4, e: 5 }, e = {};
+				$.extend(e, t);
+				Assert.AreEqual(t, e);
+				$.each(t, function (v, k) { Assert.AreEqual(v, e[k]); });
+			}
+			,
+			function $_Extend_NonEmpty_Exclusive() {
+				var t = { a: 1, b: 2, c: 3, d: 4, e: 5 }, e = {f:6, g:7, h:8, i:9};
+				$.extend(e, t);
+				$.each(t, function (v, k) { Assert.AreEqual(v, e[k]); });
+			}
+			,
+			function $_Extend_NonEmpty_Overlapping() {
+				var t = { a: 1, b: 2, c: 3, d: 4, e: 5 }, e = { c: 'three', d: 'four', f: 6, g: 7, h: 8, i: 9 };
+				$.extend(e, t);
+				$.each(t, function (v, k) { Assert.AreEqual(v, e[k]); });
+			}
+		]);
+		
 	</script>
 
 </body>
