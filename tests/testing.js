@@ -25,24 +25,33 @@
 	var lib = {
 		_testTwo: function (msgGood, msgBad, a, b, test) {
 			//log.info('Test:', arguments.callee.caller.caller ? arguments.callee.caller.caller.name : '?', ' =====');
-			if( !test(a,b) ) log.err(msgBad + ":", a, "::", b);
-			else log(msgGood + ':', a, "::", b);
+			var trace = (arguments.callee.caller ? arguments.callee.caller.name : '?') + " --";
+			if( !test(a,b) ) log.err(trace, msgBad + ":", a, "::", b);
+			else log(trace, msgGood + ':', a, "::", b);
 		}
 		,
-		AreEqual: function (expected, actual, msg) {
+		AreSame: function AreSame(expected, actual, msg) {
 			lib._testTwo('equals', msg || 'does not equal', expected, actual, function (x, y) { return x === y });
 		}
 		,
-		AreNotEqual: function (expected, actual, msg) {
+		AreNotSame: function AreNotSame(expected, actual, msg) {
 			lib._testTwo('does not equal', msg || 'equals', expected, actual, function (x, y) { return x !== y });
 		}
 		,
-		IsTrue: function (actual, msg) {
+		AreEqual: function AreEqual(expected, actual, msg) {
+			lib._testTwo('equals', msg || 'does not equal', expected, actual, function (x, y) { return x == y });
+		}
+		,
+		AreNotEqual: function AreNotEqual(expected, actual, msg) {
+			lib._testTwo('does not equal', msg || 'equals', expected, actual, function (x, y) { return x != y });
+		}
+		,
+		IsTrue: function IsTrue(actual, msg) {
 			lib._testTwo('is true', msg || 'not true', true, actual, function (x, y) { return x === y });
 			// breaks "trace" -- lib.AreEqual(true, actual, msg || 'not true');
 		}
 		,
-		IsFalse: function (actual, msg) {
+		IsFalse: function IsFalse(actual, msg) {
 			lib._testTwo('is false', msg || 'not false', false, actual, function (x, y) { return x === y });
 			// breaks "trace" -- lib.AreEqual(false, actual, msg || 'not false');
 		}

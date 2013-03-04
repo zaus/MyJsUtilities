@@ -6,31 +6,43 @@
 	<script id="tmpl-b" type="text/template">the {{rain}} in {{spain}} stays mainly on the {{plain}}.</script>
 	<pre id="out"></pre>
 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="../miniutil.js"></script>
 	<script src="testing.js"></script>
 
 	<script>
-		var tmplA = new T('tmpl-a')
-			, tmplB = new T('tmpl-b')
-			, tmplC = new T() // set template string manually
+		var tmplA = new $.T('tmpl-a')
+			, tmplB = new $.T('tmpl-b')
+			, tmplC = new $.T() // set template string manually
 		;
 
 		Assert.Tests([
 			// random tests just to see if the "test framework" works
 			function AreEqual() {
 				Assert.AreEqual(true, true);
+				Assert.AreSame(true, true);
 			}
 			,
 			function AreNotEqual() {
 				Assert.AreNotEqual(true, false);
+				Assert.AreNotSame(true, false);
 			}
 			,
-			function IsTrueFalse() {
+			function AreEqualVsSame() {
+				Assert.AreEqual(true, 1);
+				Assert.AreSame(true, 1, "Expected not the same");
+			}
+			,
+			function IsTrueFalse_ExpectedFail() {
 				Assert.IsTrue(false, "wannabe");
 				Assert.IsFalse(true, "i expected you to be");
 			}
 			,
 			// actual tests
+			function NoConflict() {
+				Assert.AreEqual(jQuery, $.NC);
+			}
+			,
 			function Template_NoData() {
 				Assert.AreEqual('{{a}} {{b}} {{c}} {{d}} {{e}}', tmplA.render());
 				Assert.AreEqual('the {{rain}} in {{spain}} stays mainly on the {{plain}}.', tmplB.render());
@@ -47,6 +59,13 @@
 				Assert.AreEqual(tmplC.t, tmplC.render());
 				var data = { manually: 'one', template: 2, "cheer up": 3 };
 				Assert.AreEqual('this is a one set 2, so 3!', tmplC.render(data));
+			}
+			,
+			function Template_Manual_Inline() {
+				var t = 'this is a {{manually}} set {{template}}, so {{cheer up}}!';
+				Assert.AreEqual(t, tmplC.render());
+				var data = { manually: 'one', template: 2, "cheer up": 3 };
+				Assert.AreEqual('this is a one set 2, so 3!', tmplC.render(data,t));
 			}
 			,
 			function $_Find() {
@@ -84,7 +103,8 @@
 			function $_Extend_Empty() {
 				var t = { a: 1, b: 2, c: 3, d: 4, e: 5 }, e = {};
 				$.extend(e, t);
-				Assert.AreEqual(t, e);
+				Assert.AreEqual(t, e, "not really the same object");
+				Assert.AreEqual(JSON.stringify(t), JSON.stringify(e), "But their stringified representations should be the same");
 				$.each(t, function (v, k) { Assert.AreEqual(v, e[k]); });
 			}
 			,
