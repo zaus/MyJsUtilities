@@ -16,19 +16,15 @@
 	};
 	$.off = function (t, c) { c = t[1]; t = $._t[t[0]]; if (t && t[c]) { delete (t[c]); t.splice(c, 1); /* not happening enough to optimize remove? */ } };
 	$.go = function (t, args) {
-		$.log('triggered', t);
 		// "bubble" up namespaces
 		p = t.split('.');
 		$.each(p, function (o, i) {
 			p[i] = typeof p[i - 1] === typeof u ? p[i] : p[i-1] + '.' + p[i];
-			$.log('rebuilding topic list', i, o, p);
 		});
 		var ME = this;
 		$.each(p, function (t) {
-			$.log('applying topic', t);
 			$.each($._t[t], function (c) {
-				$.log(t, '=', c);
-				c.apply(ME, args);
+				c.apply(ME, args); // TODO: add topic?
 			});
 		});
 	};

@@ -119,6 +119,25 @@
 				$.extend(e, t);
 				$.each(t, function (v, k) { Assert.AreEqual(v, e[k]); });
 			}
+			,
+			function $pubsub() {
+				var fOne = function fOne(a) { $.go('pubsubtest.One', [a]); $.log('i\'m inside function', 'fOne'); }
+				var fTwo = function fTwo(b) { $.go('pubsubtest.Two', [b]); $.log('i\'m inside function', 'fTwo'); }
+				var fSubTwo = function fSubTwo(c,d) { $.go('pubsubtest.Two.Sub', [c,d]); $.log('i\'m inside function', 'fSubTwo'); }
+				
+				
+				// global
+				$.on('pubsubtest', function () {
+					var arr = []; arr.push(Array.prototype.slice.call(arguments, 0));
+					// arr.push( arguments.callee.caller.name );
+					$.log.apply($.log, arr);
+				});
+				
+				var a = 9, b = "ten", c = 11, d = "twelevety";
+				fOne(a);
+				fTwo(b);
+				fSubTwo(c, d);
+			}
 		]);
 		
 	</script>
