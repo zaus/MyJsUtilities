@@ -29,8 +29,21 @@
 		});
 	};
 	
-	$.T = function (id) { var $o = $(id); this.t = $o ? $o.innerHTML : ''; }
+	$.T = function (id) {
+		/// <summary>
+		/// Templater:  uses moustache-style token delimiters {{ }}
+		/// </summary>
+		/// <param name="id">the template element; leave blank to use manual template</param>
+		var $o = $(id); this.t = $o ? $o.innerHTML : '';
+	}
 	$.T.prototype.render = function (data,t) {
+		/// <summary>
+		/// Inject data, replacing tokens; optionally using provided template string
+		/// </summary>
+		/// <param name="data">the object of placeholder/replacement pairs</param>
+		/// <param name="t">optional template string</param>
+		/// <returns type="string">rendered string</returns>
+
 		t = t||this.t;
 		$.each(data, function (v, k) {
 			t = t.replace(new RegExp('{{' + k + '}}', 'g'), v);
@@ -38,5 +51,24 @@
 		return t;
 	};
 
-	$.log = function () { if (c && c.log) { var args = Array.prototype.slice.call(arguments, 0); c.log.apply ? c.log.apply(c, args) : c.log(args); } };
+	$.log = function (args) {
+		/// <summary>
+		/// console.log wrapper
+		/// </summary>
+		/// <param name="args" type="params">param argument listing</param>
+
+		if (c && c.log) { args = Array.prototype.slice.call(arguments, 0); c.log.apply ? c.log.apply(c, args) : c.log(args); }
+	};
+	
+	$.string = function(len) {
+		/// <summary>
+		/// Generate a short random alphanumeric string.  See http://stackoverflow.com/a/8084248/1037948
+		/// </summary>
+		/// <param name="len">how many chars to return</param>
+		/// <returns type="string">random alphanumeric string</returns>
+		
+		var s = Math.random().toString(36).substr(2, len)
+		if (len > 16) s += $.string(len - 16);
+		return s;
+	};
 })(document, console);
