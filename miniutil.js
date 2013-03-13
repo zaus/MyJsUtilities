@@ -71,4 +71,10 @@
 		if (len > 16) s += $.string(len - 16);
 		return s;
 	};
+	
+	$.wait = function(cb, delay) {
+		var loopkey;
+		clearTimeout(loopkey); // break previous delay
+		loopkey = setTimeout(cb, delay);
+	};
 })(document, console);
