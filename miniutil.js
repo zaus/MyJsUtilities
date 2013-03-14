@@ -72,9 +72,14 @@
 		return s;
 	};
 	
-	$.wait = function(cb, delay) {
-		var loopkey;
-		clearTimeout(loopkey); // break previous delay
-		loopkey = setTimeout(cb, delay);
+	$.wait = function (cb, delay) {
+		/// <summary>
+		/// Delay function -- if called repeatedly, will only execute after last trigger
+		/// </summary>
+		/// <param name="cb">function to execute after delay</param>
+		/// <param name="delay">the delay</param>
+
+		if( this.loopkey ) clearTimeout(this.loopkey); // break previous delay
+		this.loopkey = setTimeout(cb, delay);
 	};
 })(document, console);
