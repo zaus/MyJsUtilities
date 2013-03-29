@@ -30,7 +30,6 @@
 		// allow multiple calculations
 		return $.map($(this), function(o) {
 			var $o = $(o), $fake = $o.data(N('fake'));
-			console.log($o, $fake);
 			if (!$fake) {
 				// cloning causes duplication issues on subsequent calls
 				// can attach to parent, but may be unnecessary parsing vs. body if updating font each time

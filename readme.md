@@ -13,10 +13,12 @@ Contents
 * **Inheritance**: Object-oriented "macros" for class _definition_ (`Define`) and _inheritance_ (`Inherits`).  Inspired by [this](http://phrogz.net/js/classes/OOPinJS2.html) and [that](http://www.htmlgoodies.com/html5/tutorials/create-an-object-oriented-javascript-class-constructor.html)
 * **Templating**: simple [Moustache-style](https://github.com/janl/mustache.js) template helper.
 * **jQuery Plugins**:
-   - **listEvents**: get all bound events (jQ 1.8+)
-   - **triggerAny**: filter namespaced triggers, like `.custom1` to fire `click.custom1` and `change.custom1`
-   - **$each**: "fixes" `.each` so that `this` (and param) are jQuery, not DOM elements
-   
+    - **listEvents**: get all bound events (jQ 1.8+)
+    - **triggerAny**: filter namespaced triggers, like `.custom1` to fire `click.custom1` and `change.custom1`
+    - **$each**: "fixes" `.each` so that `this` (and param) are jQuery, not DOM elements
+    - **getSelector**: builds list of DOM elements in inheritance chain; includes tag, id, class
+    - **createNestedDom**: utility to construct multi-level DOM items for testing (particularly for [selector performance tests](http://jsperf.com/jquery-context-or-no-context/7))
+    - **getTextSize**: calculate width or height of the text within one or more elements -- specifically useful for calculating when to increase the dimensions of an input box during typing
 
 License
 -------
