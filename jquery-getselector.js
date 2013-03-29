@@ -1,11 +1,11 @@
 !(function($, undefined) {
-	/// adapted from http://stackoverflow.com/a/15623322/1037948
-	/// see in http://jsfiddle.net/drzaus/Hgjfh/4/
+	// adapted from http://stackoverflow.com/a/15623322/1037948
+	// see http://jsfiddle.net/drzaus/Hgjfh/5/
 	
 	get_selector = function(element, delim) {
+		if( typeof element === typeof undefined || typeof element.tagName === typeof undefined ) return '';
 		delim = delim || ' > ';
 		pieces = [];
-		if (typeof element.tagName !== typeof undefined) {
 		do {
 			if (element.className) {
 			var classes = element.className.split(' ')
@@ -20,12 +20,11 @@
 			pieces.unshift(element.id);
 			pieces.unshift('#');
 			}// if id
-			// for some reason I'm seeing "undefined" here in Chrome...strip empty items later
+			// for some reason I'm still seeing "undefined" here in Chrome...strip empty items later
 			pieces.unshift(element.tagName);
 			pieces.unshift(delim);
 		} while(element = element.parentNode);
-		}// if tagname
-		// strip the "empty entries"
+		
 		return pieces.slice(3).join('');
 	};
 
