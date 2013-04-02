@@ -1,43 +1,40 @@
-!(function($, undefined) {
-	// adapted from http://stackoverflow.com/a/15623322/1037948
-	// see http://jsfiddle.net/drzaus/Hgjfh/5/
-	
-	get_selector = function(element, delim) {
-		if( typeof element === typeof undefined || typeof element.tagName === typeof undefined ) return '';
-		delim = delim || ' > ';
+!(function ($, undefined, pieces, classes, i) {
+	// v2 adapted from original @will http://stackoverflow.com/a/15623322/1037948
+	// v3 adapted from @drzaus http://jsfiddle.net/drzaus/Hgjfh/5/
+	// see http://jsfiddle.net/yaworsw/CALY5/2/
+
+	get_selector = function (element) {
 		pieces = [];
-		do {
+
+		for (; element && element.tagName !== undefined; element = element.parentNode) {
 			if (element.className) {
-			var classes = element.className.split(' ')
-			for (var i in classes) {
-				if(classes.hasOwnProperty(i)) {
-					pieces.unshift(classes[i]);
-					pieces.unshift('.');
-				}// hasOwnProperty
-			}// foreach classes
-			}// if className
-			if (element.id) {
-			pieces.unshift(element.id);
-			pieces.unshift('#');
-			}// if id
-			// for some reason I'm still seeing "undefined" here in Chrome...strip empty items later
+				classes = element.className.split(' ');
+				for (i in classes) {
+					if (classes.hasOwnProperty(i) && classes[i]) {
+						pieces.unshift(classes[i]);
+						pieces.unshift('.');
+					}
+				}
+			}
+			if (element.id && !/\s/.test(element.id)) {
+				pieces.unshift(element.id);
+				pieces.unshift('#');
+			}
 			pieces.unshift(element.tagName);
-			pieces.unshift(delim);
-		} while(element = element.parentNode);
-		
-		return pieces.slice(3).join('');
+			pieces.unshift(' > ');
+		}
+
+		return pieces.slice(1).join('');
 	};
 
-	$.fn.getSelector = function(only_one, delim) {
-		delim = (delim || (typeof only_one === typeof true ? false : only_one) || ' > ');
-		
+	$.fn.getSelector = function (only_one) {
 		if (true === only_one) {
-			return get_selector(this[0], delim);
+			return get_selector(this[0]);
 		} else {
-			return $.map( this, function(el) {
-				return get_selector(el, delim);
+			return $.map(this, function (el) {
+				return get_selector(el);
 			});
 		}
 	};
 
-})(window.jQuery);
+})(jQuery);
