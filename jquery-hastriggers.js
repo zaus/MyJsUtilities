@@ -40,6 +40,7 @@
 	$.fn.hasTriggers = function (config) {
 		/// <summary>
 		/// For the given trigger/toggle-container, add listener to children's trigger that when fired will "propagate" to perform a behavior on other targets, with optional args.  Most options may be specifically overridden with data- attributes of the same name.
+		/// See demo at http://codepen.io/zaus/pen/LyIvs
 		/// </summary>
 		/// <param name="config">option configuration: trigger selectors, trigger action, triggered behavior, optional args for that behavior, the target selector or parent/children selectors, appearance flag and/or how to switch the appearance once 'activated'</param>
 
