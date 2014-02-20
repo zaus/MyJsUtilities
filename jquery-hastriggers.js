@@ -1,4 +1,5 @@
 !(function($) {
+	//<![CDATA[
 	/*
 	
 	Adds listeners on `selectors` for the given element(s) (e.g. `this.on(trigger, selectors, fn)`)
@@ -30,9 +31,12 @@
 				children: 'article'
 			});
 		</script>
-	
+		
 	*/
+	//]]>
 
+	var breaker = {};
+	
 	$.fn.hasTriggers = function (config) {
 		/// <summary>
 		/// For the given trigger/toggle-container, add listener to children's trigger that when fired will "propagate" to perform a behavior on other targets, with optional args.  Most options may be specifically overridden with data- attributes of the same name.
@@ -40,14 +44,14 @@
 		/// <param name="config">option configuration: trigger selectors, trigger action, triggered behavior, optional args for that behavior, the target selector or parent/children selectors, appearance flag and/or how to switch the appearance once 'activated'</param>
 
 		// needs to be inside a toggle-container element
-		var ME = this, breaker = {}, options = $.extend({}, $.fn.hasTriggers.defaults, config);
+		var ME = this, options = $.extend({}, $.fn.hasTriggers.defaults, config);
 
 		// the behavior
 		return ME.on(options.trigger, options.selectors, function() {
 			var $btn = $(this)
 				// better to use single object?, meta = $btn.data('togglemeta')
 				, behavior = $btn.data('behavior') || options.behavior // the behavior to toggle
-				, args = $btn.data('args') || breaker // optional behavior arguments
+				, args = $btn.data('args') || options.args // optional behavior arguments
 				, $target = $btn.data('$target') // cached target, not the selector 'target'
 				;
 
@@ -78,7 +82,7 @@
 		selectors: '[data-action="trigger"]',
 		trigger: 'click', // what activates the `selectors`
 		behavior: 'click', // what to trigger on `targets`
-		args: null, // comma-separated arguments to send to `behavior`
+		args: breaker, // comma-separated arguments to send to `behavior`, or 'breaker'
 		target: null, // explicit targets to be triggered, or use `parent` and/or `children`
 		parent: null, // '.trigger-container', <-- use instead the context container if not given
 		children: '[data-toggle]', // bootstrap collapse buttons are usual target
