@@ -3,13 +3,13 @@
 	// v3 adapted from @drzaus http://jsfiddle.net/drzaus/Hgjfh/5/
 	// see http://jsfiddle.net/yaworsw/CALY5/2/
 
-	get_selector = function (element) {
-		pieces = [];
+	var get_selector = function (element) {
+		var pieces = [];
 
 		for (; element && element.tagName !== undefined; element = element.parentNode) {
 			if (element.className) {
-				classes = element.className.split(' ');
-				for (i in classes) {
+				var classes = element.className.split(' ');
+				for (var i in classes) {
 					if (classes.hasOwnProperty(i) && classes[i]) {
 						pieces.unshift(classes[i]);
 						pieces.unshift('.');
